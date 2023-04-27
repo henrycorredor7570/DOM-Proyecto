@@ -1,0 +1,222 @@
+/* **********    Reset CSS    ************ */
+:root{
+    --main-font: sans-serif;
+    --font-size:16px;
+    --main-color:#f7df1e;
+    --second-color:#222;
+    --main-modal-color:rgba(247,222,30,0.85);
+    --second-modal-color:rgba(34,34,34,0.85);
+    --container-width:1200px;/* generar containers con maximo 1200px */
+}
+
+html{
+    box-sizing: border-box;/* tamaño de la caja */
+    font-family:var(--main-font);/*  */
+    font-size:var(--font-size);
+    scroll-behavior: smooth;/* transicion de una seccion a otra de manera mas pausada no lo arroja de una*/
+}
+
+*,
+*:before,
+*::after{
+    box-sizing: inherit;/* todos los elementos de este documento html hereden el box-sizing */
+}
+
+body{
+    margin:0;/* por defecto trae 8 px lo dejamos en 0 */
+    overflow-x: hidden;/* para que todo lo que se desborde en horizontal se oculte y no genere la barra de desplazamiento */
+}
+
+img{
+    max-width: 100%;/* se adapten a la maxima anchura de su contenedor */
+    height: auto;
+}
+
+
+
+
+/* Todos los estilos a partir de ahora son para el menu de hamburguesa: */
+.header{
+    position:sticky;/* cunado llegue a la posicion de 0 se va a comportar como si estuviera fija */
+    top:0;
+    padding: 1rem;
+    background-color: var(--main-color);
+    color:var(--second-color);
+}
+
+.header h1{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section{/* le damos el tamaño de la pagina a cada seccion que tenemos */
+    padding: 2rem;
+    padding-top: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: var(--container-width);
+    min-height: 100vh;/* va a ser que cada seccion ocupe el tamaño del el tamaño de la pagina  */
+    text-align: center;
+}
+
+/* Generamos una clase para nuestro panel */
+.panel{
+    position:fixed;/* posicionar al panel de manera fija */
+    z-index:998; /* con un numero menor al que le di al boton porque 
+    quiero que el menu si este encima de todo pero debajo del boton */
+    background-color: var(--second-modal-color);
+    width: 100%;
+    /* y aqui abajo extendemos el panel tanto a lo ancho como a lo alto */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: transform 0.3s ease;/*,opacity 0.5s ease; asi seria con opacity*//* para que la transicion del menu hacia abajo sea mas lenta */
+    /*opacity:0; puedo jugar con esta propiedad opacity para que ya no salga de ningun lado sino que salga de una en pantalla */
+    /* visibility: hidden; */
+    /* si quiero que el menu salga de arriba: */
+    transform: translate(0, -100%);
+    /* si quiero que el menu salga de abajo */
+    transform: translate(0, 100%);
+    /* si quiero que el menu salga de la izquierda: */
+    transform: translate(-100%, 0);
+    /* si quiero que el menu salga de la derecha: */
+    transform: translate(100%, 0);
+}
+
+.panel.is-active{
+    transform: translate(0,0);
+    /* con opacity:     
+    opacity:1; 
+    visibility:visible;
+    */
+}
+
+/* configuracion del boton de hamburguesa */
+.panel-btn{
+    position:fixed;/* posicionado de manera fija */
+    z-index:999;/* evito con el numero alto que cualquier elemento 
+    que este posicionado despues del boton aparezca encima del boton */
+    bottom:1vh;/* se ubica en la parte de abajo de la pagina */
+    right:1vw; /* ubica del lado derecho de la pagina */
+    width:4rem;
+    height:4rem;
+    border-radius:50%;
+    padding: 0;
+    display:flex;
+    justify-content:center;/* coon estas tres propiedades aplicamos flexbox para que se centren las lineas correctamente */
+    align-items:center;
+    background-color:var(--main-color);/* un color de fondo al boton */
+}
+
+.menu{
+    width: inherit;/* hereda la anchura de su contendor */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;/* este trabaja sobre y le da espaciado proporcional entre los elementos y las orillas */
+    align-items: center;/* trabaja sobre x */
+    text-align: center;
+}
+
+/* a los enlaces del menu */
+.menu a{
+    padding:2rem;/* espacio entre las secciones del menu*/
+    width: inherit;
+    display: block;/* los vuelve elementos de bloque */
+    font-size: 1.5rem;/* aumenta el tamaño de la letra */
+    text-decoration: none;/* quitar la linea del enlace el sub-rayado */
+    color: var(--main-color);
+    transition: all 0.3s ease;/* muestra una transision mas elegante mas despacio */
+}
+
+/* estilos para la clase hover: es como para el fondo de cada seccion*/
+ .menu a:hover{
+    font-weight: bold;/*  */
+    color: var(--second-color);/* se invierten los colores tanto en colo como en fondo*/
+    background-color: var(--main-modal-color);
+} 
+
+
+
+
+/* *************    EVENTOS DEL TECLADO    *****************/
+.stage{
+    display: flex;
+    min-height: 50vh; /* la mitad de la pantalla - el viewport*/
+    background-color: var(--second-color); /* color oscuro al fondo */
+}
+
+.ball{
+    margin: auto;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;/* bordes redondeados */
+    background-color: var(--main-color);
+}
+
+
+/* *************    SCROLL TOP BUTTON    *****************/
+
+.scroll-top-btn{
+    position: fixed;
+    z-index:999;/* el mismo z_index que ell boton de hamburguesa porque necesito
+     que sean igual de importantes que no se posicione nada mas encima de ellos */
+    bottom:1vh; /* distancia con respecto a la parte de abajo hacia arriba  */
+    right:calc(4.25rem + 1vw);/* calc para realizar operaciones aritmeticas en css 4.25 rem es la anchura del boton
+    1vw es la distancia de las laterales */
+    width:4rem;
+    height: 4rem;
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: var(--main-color);
+    color: var(--second-color);
+    cursor:pointer; /* en lugar de flecha pone la manito para seleccionar con el mouse */
+    outline: 0;
+    border: 10; /* borde al boton */
+    transition:all 0.3s ease-out;/* transicion del cambio de color */
+}
+
+/* invertimos los colores en el estado hover del boton */
+.scroll-top-btn:hover{
+    background-color: var(--second-color);
+    color: var(--main-color);
+}
+
+.hidden{ /* por esta clase se desaparece el boton */
+    /* cuando el boton desaparezca lo haga con un efecto de transición */
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* *************    DARK THEME BUTTON   *****************/
+/* LAS PROPIEDADES SON CASI LAS MISMAS QUE LAS DEL BOTN SCROLL */
+.dark-theme-btn{
+    position: fixed;
+    z-index:999;
+    bottom:1vh;
+    left: 1vw;
+    width:4rem;
+    height: 4rem;
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: bold;
+    background-color: var(--main-color);
+    color: var(--second-color);
+    cursor:pointer; 
+    outline: 0;
+    border: 10;
+    transition:all 0.3s ease-out;
+}
+
+/* invertimos los colores en el estado hover del boton */
+.dark-theme-btn:hover{
+    background-color: var(--second-color);
+    color: var(--main-color);
+}
+
+.dark-mode{/* cuando cambien a dark mode vemos el fondo en oscuro y la letra amarilla */
+    background-color: var(--second-color);
+    color: var(--main-color);
+}
