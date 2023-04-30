@@ -1,6 +1,6 @@
 const d = document;
 const w = window;
-//PRUEBA
+
 // solo necesita saber cual es el selector que va a desencadenar la programacion:
 export default function scrollTopButton(btn){
     // este ejercicio lo desenadenamos cuando detecte el scroll de la ventana
@@ -16,7 +16,7 @@ export default function scrollTopButton(btn){
         // caso contrario se la agregas y desaparece el boton
             $scrollBtn.classList.add("hidden");
        }
-       console.log(w.pageYOffset, d.documentElement.scrollTop); // propiedades para ver que distancia se mueve el scroll de la barra, arrojan el mismo resultado ambas
+    //    console.log(w.pageYOffset, d.documentElement.scrollTop); // propiedades para ver que distancia se mueve el scroll de la barra, arrojan el mismo resultado ambas
     });
 
     // solo resta darle click al boton:

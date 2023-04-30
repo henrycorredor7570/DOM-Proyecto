@@ -38,6 +38,7 @@ img{
 /* Todos los estilos a partir de ahora son para el menu de hamburguesa: */
 .header{
     position:sticky;/* cunado llegue a la posicion de 0 se va a comportar como si estuviera fija */
+    z-index: 997;
     top:0;
     padding: 1rem;
     background-color: var(--main-color);
@@ -83,6 +84,7 @@ img{
     transform: translate(-100%, 0);
     /* si quiero que el menu salga de la derecha: */
     transform: translate(100%, 0);
+    overflow-y: auto;/* para que el menu tenga su propio scroll dentro */
 }
 
 .panel.is-active{
@@ -219,4 +221,272 @@ img{
 .dark-mode{/* cuando cambien a dark mode vemos el fondo en oscuro y la letra amarilla */
     background-color: var(--second-color);
     color: var(--main-color);
+}
+
+
+/* ***************   Network Status o Detección de red   *************** */
+
+.online,
+.offline{
+    position:sticky;/* para que aparezca el mensaje encima del body */
+    top:();
+    z-index: 1000;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    background-color: #1b5e20;
+    color: #fff;
+}
+
+.offline{
+    background-color: #b71c1c;
+}
+
+/* ***************    SEARCH FILTERS O FILTROS DE BÚSQUEDA */
+.cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); /* propiedad para definir las columnas, repeat permite repetir varias columnas, y con auto-fit en base al elemento hijo es como se apilan las columnas por cantidad, minmax es para un elemento grid le permite oscilar entre el tamaño minimo 250 px en este caso y el tamaño maximo 1fr (y esto es lo que me permite hacer responsive que me valla apilando las tarjetas conforme se achica o agranda la pantalla */
+}
+
+.card{
+    background-color: var(--second-color);
+    color: var(--main-color);
+    transition: all 0.3s ease-out;
+}
+
+.card img{
+    width: 100%; /* 100 % de su contenedor */
+    height: auto; /* auto para q la imagen no se deforme */
+}
+
+.card figcaption{/* este es el texto de cada una de las tarjetas */
+    padding: 1rem;
+}
+
+.filter{/* clase para permitir discriminar los resultados que no coincidan y le aplique un display none */
+    /* display: none; */
+    visibility: hidden; /* con esta pripiedad tambien podemos ocultar las tarjetas */
+    opacity: 0;
+    order: 1;/*  esta propiedad es para que todas las tarjetas que se oculten se van a correr al final  */
+}
+
+
+/* ***************   Responsive Slider   **************** */
+
+.slider{
+    position:relative;
+    border: thin solid black;
+    width: 80%;/* que ancho le queremos dar */
+    margin: 1rem auto; /* automaticos para que se centre */
+    text-align: center;
+}
+
+.slider-slides{
+    position: relative;
+    height: 400px;
+}
+
+.slider-slide{
+    position: absolute; /* se lo damos porque este se posiciona respecto del primer elemento padre que encuentre en el arbol del dom que sea relativo, y si no encuentra uno relativo se posiciona respecto del body */
+    top: 0;/* se posiciona respecto del origen en este caso del contenedor de las slider-slide */
+    left: 0;
+    width: 100%;/* se adaptan al contenido tanto en ancho como en alto de tu contenedor padre */
+    height: 100%;
+    opacity: 0;/* todas empiezan con opacidad de 0 */
+    visibility: hidden;
+    transition: opacity 1s ease;
+}
+
+.slider-slide img{
+    height: inherit;/* herede la altura  de .slider-slide*/
+    width: inherit;/* herede la anchura tambien y esto hace que el slider sea responsivo */
+    object-fit: cover;/* ajustar la proporcion de una imagen respecto de su contenedor es como el efecto de imagen de portada de facebook*/
+    object-position: 50% 0%;
+}
+
+.slider-slide.active{
+    opacity: 1;
+    visibility: visible;
+}
+
+.slider-btns{
+    position:absolute;/* se posiciona respecto del primer elemento relativo que tenga en el arbol del dom como padre en este casoel slider  */
+    width: 100%;
+    top: 50%; /* esto los pone a la mitad de la imagen  */
+    display: flex;/* para que se pongan en fila los dos elementos */
+    justify-content: space-between;/* el espacio sobrante lo reparta entre los botones para que queden uno en cada esquina  */
+    font-size: 1.5rem; /* la flechita se vea mas grande */
+    font-weight: bold;
+}
+.slider a{
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: thin solid #000;
+    text-decoration: none;
+    background-color: #fff;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.slider a:hover{
+    color: #4d4d4d;
+}
+
+/* ******************   SCROLL SPY **************   */
+
+@media screen and (min-width: 1024px){/* cuando la minima anchura sean 1024 px, eso significa que los estilos van a cambiar cuando el ancho supere este px */
+    body{
+        display: grid;/* body va a trabajar con display grid */
+        grid-template-columns: 80% 20%;/* definimos las columnas */
+        grid-template-rows: 4rem auto;/* primer fila de 4rem que es el tamaño de la cabecera y la segunda auto */
+        grid-template-areas: 
+            "header   header" /* esto son filas y columnas asi como se ve: primer header primera fila primera columna */
+            "main     panel";/* main primera columna segunda fila y panel segunda fila segunda columna */
+    } 
+
+    main{
+        grid-area:main;/* main es el nombre que se definio arriba */
+    }
+
+    .header{
+        grid-area:header;/* header es el nombre que se definio arriba en body (la ubicacion)*/
+    }
+
+    .panel{
+        grid-area:panel;
+        align-self: start;/* alinear al inicio de donde empieza la celda el contenido */
+        position:sticky;/* se vuelve sticky osea pegajoso */
+        top: 4rem;/* 4 rem porque la cabecera va a ocupar una altura de 4 rems */
+        justify-content: flex-start;/* para que su contenido empiecen al inicio */
+        transform: translate(0,0);/* cuando estemos a mas de 1024 px la transfromacion regresa a 0,0 */
+        background-color: var(--second-color);
+        opacity: 1;/* esta regresa a 1 */
+        visibility: visible; /*  y este a visible */
+        /* todo esto para que se vuelva a ver el menu en la parte lateral derecha */
+    }
+
+    .panel-btn{
+        display:none;/*  para que se oculte ya no es necesario tenerlo */
+    }
+    
+    /* ajustamos los elementos del menu */
+    .menu{
+        justify-content: start;
+        text-align: right;
+    }
+    /* modificamos los enlaces dentro del menu */
+    .menu a{
+        font-size: 1rem; /* la letra para que se haga mas pequeña */
+        padding: 1rem;
+    }
+
+    .menu a:hover,
+    .menu a.active{/* que estos mismos estilos de hover se los aplique a la clase active para cuando scroliemos se seleccione el elemento que esta en el momento */
+        color: var(--second-color);
+        background-color: var(--main-color);
+    }
+
+    /* para la version movil el scroll top que hicimos en versiones anteriores en lugar que este a la derecha lo ubicamos a la izquierda */
+    .scroll-top-btn{
+        right: initial;/* que tome el calculo inicial por defecto */
+        left: calc(4.25rem + 1vw);/* este es el calculo inicial */
+    }
+
+    /* .section{
+        border:thin solid red;
+    } esto es para referenciarle un borde a las secciones nada mas  */
+}
+
+
+/*   *******************   ContactForm Validations  ******************* */
+
+.contact-form{
+    --form-ok-color: #4caf50;
+    --form-error-color: #f44336;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;/* anchura de su contenedor */
+}
+
+/* convertir los input en elementos de bloque */
+
+.contact-form > *{/*  *todos los elementos  que son hijos del formulario de contacto */
+    padding: 0.5rem;
+    margin: 1rem auto;
+    display: block;/* al aplicarle el display block los elementos estan uno debajo del otro */
+    width: 100%;
+}
+
+.contact-form textarea{
+    resize: none;/* restringir que el text area que por defecto se deja modificar en su tamaño restrinja eso */
+}
+
+.contact-form legend,
+.contact-form-response{/* estilos al titulo del formulario como al div que es donde vamos a colocar la respuesta despues del envio */
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* la tamaño letra y fuente queden igual para todos*/
+.contact-form input,
+.contact-form textarea{
+    font-size: 1rem;
+    font-family: sans-serif;
+}
+
+.contact-form input[type="submit"]{/* para los input de tipo submit anchura del 50 y cursor pointer para que cuando estemos sobre el boton aparezca la manita */
+    width: 50%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* estilos al placeholder */
+.contact-form *::placeholder{
+    color: #000;
+}
+
+/* para cuando el texto sea valido le pone un borde de color verde */
+.contact-form [required]:valid{
+    border: thin solid var(--form-ok-color);
+}
+/* y lo mismo para cuando el texto sea invalido */
+.contact-form [required]:invalid{
+    border: thin solid var(--form-error-color);
+}
+
+.contact-form-error{
+    margin-top: -1rem; /* para que este pegado al input */
+    font-size: 80%;
+    background-color: var(--form-error-color);
+    color: #fff;
+    transition: all 800ms ease;/* aparezcan y desaparezcan con una animacion */
+}
+
+/* para los mensajes de validacion */
+.contact-form-error.is-active{/* cuando tengan esta clase, el display regresa a block para que se muestren y lo mostramos a travez de una animacion */
+    display: block;
+    animation: show-message 1s 1 normal 0s ease-out both;
+}
+
+/* esta clase none solo se puso para ocultar */
+.none{
+    display:none;
+}
+
+/* y aqui ponemos la animacion */
+@keyframes show-message {
+    0%{/* que empiecen con esto */
+        visibility:hidden;
+        opacity: 0;
+    }
+    /* y que terminen con esto */
+
+    100%{
+        visibility: visible;
+        opacity: 1;
+    }
 }
