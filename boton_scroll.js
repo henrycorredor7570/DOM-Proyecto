@@ -9,7 +9,7 @@ export default function scrollTopButton(btn){
     w.addEventListener("scroll", e=>{// resolvemos que se vea o no el boton
        let scrollTop = w.pageYOffset || d.documentElement.scrollTop; //alguna de las dos propiedades guardar en la variable
       
-       // y aqui ya depende de cada quien a cuantos pixeles quiero que se muestre el botn:
+       // y aqui ya depende de cada quien a cuantos pixeles quiero que se muestre el boton:
        if(scrollTop > 700){
           $scrollBtn.classList.remove("hidden");// se la quitamos para que aparezca el boton  
        }else{
